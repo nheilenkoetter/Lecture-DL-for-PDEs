@@ -10,7 +10,7 @@ from IPython.display import display
 #             print_backward_graph(f, indent + 1)
 
 
-def interactive_plot():
+def interactive_plot(test_data=False):
     # ReLU function
     def relu(x):
         return np.clip(x, 0.0, 1000.0)
@@ -19,6 +19,9 @@ def interactive_plot():
     x_data = np.linspace(-5, 5, 100)
     x_target = np.array([-4.0, -3, -2, -1, 0, 1, 2, 3, 4])
     y_target = np.array([2, 1.6, 1.0, 0.9, 1.1, 1.0, 2.3, 5.5, 6.8])
+
+    x_test = np.array([2.5, 5])
+    y_test = np.array([4.0, 6.7])
 
     # Forward pass for 2-layer network with 2 hidden neurons and independent output weights
     def relu_net_2layer(x, w11, b11, w12, b12, w2_1, w2_2, b2):
@@ -35,9 +38,13 @@ def interactive_plot():
         
         plt.figure(figsize=(6,4))
         plt.plot(x_target, y_target, 'ro', label='Data')
+        if test_data:
+            plt.plot(x_test, y_test, 'go', label='Test Data')
         plt.plot(x_data, y_plot, 'b-', label='Network')
         plt.title(f"MSE: {mse:.4f}")
         plt.ylim(-1, 10)
+        plt.xlabel("x")
+        plt.ylabel("y")
         plt.legend()
         plt.show()
 
