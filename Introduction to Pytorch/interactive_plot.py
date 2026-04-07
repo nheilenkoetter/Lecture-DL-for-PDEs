@@ -1,13 +1,32 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
-from IPython.display import display
+from IPython.display import display, clear_output
+import torch
 
 # def print_backward_graph(tensor, indent=0):
 #     for f, _ in tensor.next_functions:
 #         if f is not None:
 #             print(f)
 #             print_backward_graph(f, indent + 1)
+
+def plot_prediction(fig, ax, e, loss, model):
+    x_target = torch.tensor([-4.0, -3, -2, -1, 0, 1, 2, 3, 4])
+    y_target = torch.tensor([2, 1.6, 1.0, 0.9, 1.1, 1.0, 2.3, 5.5, 6.8])
+    x_points = torch.linspace(-5, 5, 100).view(-1, 1)
+    y_points = model(x_points).detach()
+    
+    ax.clear()
+    ax.plot(x_points, y_points, color="blue", label="Prediction")
+    ax.scatter(x_target, y_target, color="red")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title(f"Epoch: {e}, Loss: {loss.item():.4f}")
+    ax.grid()
+    ax.set_xlim(-5, 5)
+    ax.set_ylim(0, 8)
+    clear_output(wait=True)
+    display(fig)
 
 
 def interactive_plot(test_data=False):
